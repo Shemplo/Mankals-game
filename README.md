@@ -6,7 +6,7 @@ Classic board game with long history, now is implemented for PC
 
 Game consists of desk with cells. On each of players' sides there are 6 cells (named **player cells**) and two more special cells on the right and the left of the desk (named **base**).
 
-Players game step-by-step. Each turn player can choose not-empty cell with rocks, takes them all and then put by one on the next cells. If player has no more his cells, he has to put one rock in his own base and continue put rest rocks to cells of his opponent. If opponent has no more his cells, then player skip opponent's base and do again by the new circle.
+Players play step-by-step. Each turn player can choose not-empty cell with rocks, takes them all and then put by one on the next cells. If player has no more his cells, he has to put one rock in his own base and continue put rest rocks to cells of his opponent. If opponent has no more his cells, then player skip opponent's base and do again by the new circle.
 
 For better understanding let's see the example of game:
 
@@ -20,7 +20,7 @@ This is game desk before the first turn
 
 ![](screenshots/turn1.png)
 
-First player selected his #1 cell with 4 rocks and decomposed them (1 in base and 2 in opponent's cells)
+First player selected his #4 cell with 4 rocks and decomposed them (1 in base and 2 in opponent's cells)
 
 **3. Bonus turn for 2nd player**
 
