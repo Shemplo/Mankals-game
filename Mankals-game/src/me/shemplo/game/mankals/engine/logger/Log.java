@@ -21,6 +21,9 @@ public class Log {
 	private static DateFormat logTime = new SimpleDateFormat ("HH:mm:ss dd.MM.yyyy");
 	
 	static {
+		File folder = new File ("logs");
+		if (!folder.exists ()) { folder.mkdir (); }
+		
 		try {
 			if (!_messageFile.exists ()) {
 				_messageFile.createNewFile ();
