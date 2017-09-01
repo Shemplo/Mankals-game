@@ -18,7 +18,7 @@ public class MankalsMain extends Application {
 	public static final String GAME_FRAME_TITLE = "Mankals game";
 	public static final String GAME_FRAME_MARKUP_FILE = "me/shemplo/game/mankals/engine/schemas/game-frame.fxml";
 	
-	public static final double GAME_FRAME_WIDTH   = 900,
+	public static final double GAME_FRAME_WIDTH   = 800,
 								GAME_FRAME_HEIGHT = 400;
 	
 	public static void main (String... args) {
