@@ -91,7 +91,7 @@ public class MankalsEngine {
 		Log.message (message);
 		gameLogList.getItems ().add (message);
 		
-		message = "> Turn of player: " + (currentPlayer + 1);
+		message = "> Turn of player " + (currentPlayer + 1);
 		Log.message (message);
 		gameLogList.getItems ().add (message);
 	}
@@ -260,7 +260,10 @@ public class MankalsEngine {
 	}
 	
 	public void updateMouse (MouseEvent me) {
-		int cell = _fetchCell (me.getSceneX (), me.getSceneY ());
+		if (isGameFinished) { return; }
+		
+		int cell = _fetchCell (me.getSceneX (), 
+								me.getSceneY ());
 		
 		if (me.getClickCount () > 0) {
 			if (cell != -1) { _cellSelected (cell); }
@@ -291,7 +294,9 @@ public class MankalsEngine {
 	}
 	
 	private void _cellSelected (int cell) {
-		String message = "* Player " + (currentPlayer + 1) + " selected cell #" + cell;
+		String message = "* Player " + (currentPlayer + 1) 
+							+ " selected cell #" + cell 
+							+ " (" + storage [currentPlayer][cell] + " mks)";
 		Log.message (message);
 		gameLogList.getItems ().add (message);
 		
@@ -370,17 +375,22 @@ public class MankalsEngine {
 					gameLogList.getItems ().add (message);
 				}
 				
+				hoveredCell = -1;
+				prevHoveredCell = -2;
 				_drawScreen ();
 				isGameFinished = true;
 			} else if (!(offset == 0 && player != currentPlayer)) {
 				currentPlayer = (currentPlayer + 1) % 2;
 				currentTurn ++;
 				
-				message = "> Turn of player: " + (currentPlayer + 1);
+				message = "> Turn of player " + (currentPlayer + 1);
+				Log.message (message);
+				gameLogList.getItems ().add (message);
+			} else {
+				message = "+ Bonus turn for player " + (currentPlayer + 1);
 				Log.message (message);
 				gameLogList.getItems ().add (message);
 			}
-			
 		} else {
 			message = "This cell is empty";
 			Log.message (message);
