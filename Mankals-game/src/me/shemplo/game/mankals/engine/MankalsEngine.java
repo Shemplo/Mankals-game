@@ -9,6 +9,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -30,6 +31,8 @@ public class MankalsEngine {
 	private BorderPane borderPane;
 	private StackPane stackPane;
 	private Canvas canvas;
+	private Button stopGameButton,
+					toMainMenuButton;
 	
 	private double canvasWidth, canvasHeight;
 	private int currentTurn, currentPlayer;
@@ -41,6 +44,7 @@ public class MankalsEngine {
 	public MankalsEngine (Scene scene, MankalsMain main) {
 		this._gameScene = scene;
 		this._main = main;
+		
 		_init ();
 	}
 	
@@ -59,6 +63,24 @@ public class MankalsEngine {
 		canvas.setWidth (canvasWidth = (MankalsMain.GAME_FRAME_WIDTH * 3 / 4 - 10));
 		canvas.setHeight (canvasHeight = MankalsMain.GAME_FRAME_HEIGHT);
 		this.context = canvas.getGraphicsContext2D ();
+		
+		this.stopGameButton = (Button) _gameScene.lookup ("#game_stop_button");
+		stopGameButton.setOnMouseClicked (me -> {
+			if (isGameFinished && winner == -1) {
+				stopGameButton.setText ("Stop game");
+				toMainMenuButton.setDisable (true);
+				isGameFinished = false;
+			} else if (!isGameFinished) {
+				stopGameButton.setText ("Continue game");
+				toMainMenuButton.setDisable (false);
+				isGameFinished = true;
+			}
+		});
+		
+		this.toMainMenuButton = (Button) _gameScene.lookup ("#game_to_main_menu_button");
+		toMainMenuButton.setOnMouseClicked (me -> {
+			_main.switchScenes (_main.getStage (), MankalsMain.MAIN_MENU_MARKUP_FILE);
+		});
 		
 		Log.message ("Canvas bounds: " + canvasWidth + " | " + canvasHeight);
 	}
@@ -84,6 +106,7 @@ public class MankalsEngine {
 		base = new int [2];
 		currentPlayer = 0;
 		currentTurn = 0;
+		winner = -1;
 		
 		_drawScreen ();
 		
@@ -103,7 +126,8 @@ public class MankalsEngine {
 	private int deskLength,
 				deskAmount,
 				hoveredCell     = -1,
-				prevHoveredCell = -2;
+				prevHoveredCell = -2,
+				winner = -1;
 	private final Font CELLS_FONT = new Font (36);
 	private final FontMetrics FONT_METRICS = Toolkit.getToolkit ()
 													.getFontLoader ()
@@ -341,7 +365,7 @@ public class MankalsEngine {
 				gameLogList.getItems ().add (message);
 			}
 			
-			int winner = _fetchWinner ();
+			winner = _fetchWinner ();
 			if (_isEmptyStorage (0) 
 					|| _isEmptyStorage (1)
 					|| winner != -1) {
