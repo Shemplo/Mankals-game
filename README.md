@@ -2,7 +2,7 @@
 
 Classic board game with long history, now is implemented for PC
 
-### Rules
+## Rules
 
 Game consists of desk with cells. On each of players' sides there are 6 cells (named **player cells**) and two more special cells on the right and the left of the desk (named **base**).
 
@@ -43,3 +43,9 @@ If player finished decomposition on his cells (make full circle or not finished 
 **6. Continue game till the end**
 
 ![](screenshots/turn4.png)
+
+## Funny <s>bugs</s> features
+
+**1. Win98 style**
+
+![](screenshots/bug_win98.png)
