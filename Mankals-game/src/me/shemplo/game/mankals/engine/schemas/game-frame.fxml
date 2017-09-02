@@ -24,15 +24,17 @@
 				<HBox>
 					<children>
 						<Button 
-							fx:id="game_stop_button" 
-							text="Stop game">
+							fx:id="game_to_main_menu_button" 
+							text="To main menu"
+							disable="true">
 							<HBox.margin>
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</HBox.margin>
 						</Button>
+						
 						<Button 
-							fx:id="game_to_main_menu_button" 
-							text="To main menu">
+							fx:id="game_stop_button" 
+							text="Stop game">
 							<HBox.margin>
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</HBox.margin>

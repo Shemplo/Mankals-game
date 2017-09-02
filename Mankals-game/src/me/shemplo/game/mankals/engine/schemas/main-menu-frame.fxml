@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane 
+	xmlns:fx="http://javafx.com/fxml/1">
+	<left>
+		<VBox>
+			<children>
+				<Button 
+					fx:id="start_classic_game_button"
+					text="New classic game">
+					<VBox.margin>
+						<Insets top="15" right="15" bottom="15" left="15" />
+					</VBox.margin>
+				</Button>
+				
+				<Button 
+					fx:id="start_custom_game_button"
+					text="New custom game"
+					disable="true">
+					<VBox.margin>
+						<Insets top="5" right="15" bottom="15" left="15" />
+					</VBox.margin>
+				</Button>
+				
+				<Button 
+					fx:id="start_ai_game_button"
+					text="New game with AI"
+					disable="true">
+					<VBox.margin>
+						<Insets top="5" right="15" bottom="15" left="15" />
+					</VBox.margin>
+				</Button>
+				
+				<Button 
+					fx:id="see_rules_button"
+					text="Game rules">
+					<VBox.margin>
+						<Insets top="5" right="15" bottom="15" left="15" />
+					</VBox.margin>
+				</Button>
+				
+				<Button 
+					fx:id="about_button"
+					text="About">
+					<VBox.margin>
+						<Insets top="5" right="15" bottom="15" left="15" />
+					</VBox.margin>
+				</Button>
+				
+				<Button 
+					fx:id="exit_button"
+					text="Exit">
+					<VBox.margin>
+						<Insets top="5" right="15" bottom="15" left="15" />
+					</VBox.margin>
+				</Button>
+			</children>
+		</VBox>
+	</left>
+</BorderPane>
+
