@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ public class MankalsMain extends Application {
 	public static final String MAIN_MENU_MARKUP_FILE  = "me/shemplo/game/mankals/engine/schemas/main-menu-frame.fxml";
 	public static final String GAME_FRAME_MARKUP_FILE = "me/shemplo/game/mankals/engine/schemas/game-frame.fxml";
 	
+	public static final String BORDERS_STYLES_FILE = "me/shemplo/game/mankals/engine/styles/borders.css";
 	public static final String BUTTONS_STYLES_FILE = "me/shemplo/game/mankals/engine/styles/buttons.css";
 	
 	public static final String HAND_ICON_IMAGE_FILE = "me/shemplo/game/mankals/about/hold.png";
@@ -44,11 +46,13 @@ public class MankalsMain extends Application {
 	/* ===| APPLICATION AREA |=== */
 	
 	private Stage stage;
-	private String css;
+	private String cssBorders,
+					cssButtons;
 	
 	public void start (Stage stage) {
 		this.stage = stage;
-		this.css = ClassLoader.getSystemResource (BUTTONS_STYLES_FILE).toExternalForm ();
+		this.cssBorders = ClassLoader.getSystemResource (BORDERS_STYLES_FILE).toExternalForm ();
+		this.cssButtons = ClassLoader.getSystemResource (BUTTONS_STYLES_FILE).toExternalForm ();
 		
 		switchScenes (stage, MAIN_MENU_MARKUP_FILE);
 		Log.message ("Main frame launched - OK");
@@ -87,10 +91,11 @@ public class MankalsMain extends Application {
 		}
 		
 		Scene scene = loadedScenes.get (markupFile);
-		scene.getStylesheets ().add (css);
+		scene.getStylesheets ().add (cssBorders);
+		scene.getStylesheets ().add (cssButtons);
 		
 		if (scene != null) {
-			stage.setScene (scene); 
+			stage.setScene (scene);
 		
 			switch (markupFile) {
 				case MAIN_MENU_MARKUP_FILE:
