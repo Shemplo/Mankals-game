@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import me.shemplo.game.mankals.engine.MainMenuScene;
 import me.shemplo.game.mankals.engine.MankalsEngine;
 import me.shemplo.game.mankals.engine.logger.Log;
@@ -52,10 +53,11 @@ public class MankalsMain extends Application {
 		switchScenes (stage, MAIN_MENU_MARKUP_FILE);
 		Log.message ("Main frame launched - OK");
 		
-		stage.show ();
-		stage.setResizable (false);
-		stage.setTitle (GAME_FRAME_TITLE);
 		stage.setOnCloseRequest (cre -> Log.close ());
+		stage.initStyle (StageStyle.UNDECORATED);
+		stage.setTitle (GAME_FRAME_TITLE);
+		stage.setResizable (false);
+		stage.show ();
 	}
 	
 	public void exit () {
