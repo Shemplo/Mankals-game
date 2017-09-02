@@ -1,0 +1,28 @@
+.menu_button {
+	-fx-marging: inherit; -fx-padding: 7.5 15;
+	
+	-fx-font-size: 1.25em;
+	-fx-font-weight: bold;
+	color: rgb(160,120,46);
+	
+	-fx-background-color: rgb(213,193,155);
+}
+
+.menu_button:hover {
+	-fx-cursor: hand;
+	-fx-background-color: rgb(190,172,139);
+}
+
+.game_button {
+	-fx-marging: inherit; -fx-padding: 5 12.5;
+	
+	-fx-font-size: 1.15em;
+	color: rgb(160,120,46);
+	
+	-fx-background-color: rgb(213,193,155);
+}
+
+.game_button:hover {
+	-fx-cursor: hand;
+	-fx-background-color: rgb(190,172,139);
+}

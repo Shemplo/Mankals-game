@@ -25,6 +25,7 @@
 					<children>
 						<Button 
 							fx:id="game_to_main_menu_button" 
+							styleClass="game_button"
 							text="To main menu"
 							disable="true">
 							<HBox.margin>
@@ -34,6 +35,7 @@
 						
 						<Button 
 							fx:id="game_stop_button" 
+							styleClass="game_button"
 							text="Stop game">
 							<HBox.margin>
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
