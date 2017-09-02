@@ -43,3 +43,9 @@ If player finished decomposition on his cells (make full circle or not finished 
 **6. Continue game till the end**
 
 ![](screenshots/turn4.png)
+
+### Funny <s>bugs</s> features:
+
+**1. Win98 style**
+
+![](screenshots/bug_win98.png)
