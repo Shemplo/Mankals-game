@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -36,6 +37,7 @@ public class MankalsEngine {
 	
 	private ListView <String> gameLogList;
 	private GraphicsContext context;
+	private HBox windowTopMenuBox;
 	private BorderPane borderPane;
 	@SuppressWarnings ("unused")
 	private StackPane stackPane;
@@ -50,6 +52,9 @@ public class MankalsEngine {
 					isAnimation    = false;
 	
 	private HandAnimator _handAnimator;
+	
+	private double dragStartX  = Integer.MAX_VALUE,
+					dragStartY = Integer.MAX_VALUE;
 	
 	private int [][] storage;
 	private int [] base;
@@ -68,7 +73,24 @@ public class MankalsEngine {
 		this.stackPane = (StackPane) _gameScene.lookup ("#game_stack_pane");
 		
 		// It looks - OK
-		borderPane.setBackground (new Background (new BackgroundFill (Color.WHEAT, null, null)));
+		borderPane.setBackground (new Background (new BackgroundFill (Color.rgb (245, 228, 197),
+																		null,
+																		null)));
+		
+		this.windowTopMenuBox = (HBox) _gameScene.lookup ("#window_menu_box");
+		windowTopMenuBox.setBackground (new Background (new BackgroundFill (Color.rgb (230,210,174),
+																				null,
+																				null)));
+		windowTopMenuBox.setOnMousePressed (me -> {
+			dragStartX = me.getScreenX () - _main.getStage ().getX ();
+			dragStartY = me.getScreenY () - _main.getStage ().getY ();
+			Log.message ("Pointer on " + dragStartX + " / " + dragStartY);
+		});
+		
+		windowTopMenuBox.setOnMouseDragged (me -> {
+			_main.getStage ().setX (me.getScreenX () - dragStartX);
+			_main.getStage ().setY (me.getScreenY () - dragStartY);
+		});
 		
 		this.gameLogList = (ListView <String>) _gameScene.lookup ("#game_log_list");
 		gameLogList.setFocusTraversable (false);

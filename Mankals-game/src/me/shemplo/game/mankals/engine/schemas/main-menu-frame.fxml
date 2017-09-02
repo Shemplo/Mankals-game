@@ -6,9 +6,24 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.HBox?>
 
 <BorderPane 
 	xmlns:fx="http://javafx.com/fxml/1">
+	<top>
+		<HBox
+			fx:id="window_menu_box"
+			alignment="BASELINE_RIGHT">
+				<children>
+					<Button 
+						fx:id="exit_button"
+						styleClass="top_menu_button"
+						text="✕">
+					</Button>
+				</children>
+		</HBox>
+	</top>
+	
 	<left>
 		<VBox>
 			<children>
@@ -56,15 +71,6 @@
 					styleClass="menu_button"
 					text="About"
 					disable="true">
-					<VBox.margin>
-						<Insets top="5" right="15" bottom="15" left="15" />
-					</VBox.margin>
-				</Button>
-				
-				<Button 
-					fx:id="exit_button"
-					styleClass="menu_button"
-					text="Exit">
 					<VBox.margin>
 						<Insets top="5" right="15" bottom="15" left="15" />
 					</VBox.margin>

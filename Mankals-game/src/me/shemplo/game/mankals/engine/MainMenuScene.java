@@ -5,8 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import me.shemplo.game.mankals.core.MankalsMain;
+import me.shemplo.game.mankals.engine.logger.Log;
 
 public class MainMenuScene {
 	
@@ -14,6 +16,7 @@ public class MainMenuScene {
 	private Scene _gameScene;
 	
 	private BorderPane rootBorderPane;
+	private HBox windowTopMenuBox;
 	
 	@SuppressWarnings ("unused")
 	private Button startClassicGame,
@@ -22,6 +25,9 @@ public class MainMenuScene {
 					seeRules,
 					seeAbout,
 					exitGame;
+	
+	private double dragStartX  = Integer.MAX_VALUE,
+					dragStartY = Integer.MAX_VALUE;
 	
 	public MainMenuScene (Scene scene, MankalsMain main) {
 		this._gameScene = scene;
@@ -35,6 +41,21 @@ public class MainMenuScene {
 		rootBorderPane.setBackground (new Background (new BackgroundFill (Color.rgb (245, 228, 197),
 																			null,
 																			null)));
+		
+		this.windowTopMenuBox = (HBox) _gameScene.lookup ("#window_menu_box");
+		windowTopMenuBox.setBackground (new Background (new BackgroundFill (Color.rgb (230,210,174),
+																				null,
+																				null)));
+		windowTopMenuBox.setOnMousePressed (me -> {
+			dragStartX = me.getScreenX () - _main.getStage ().getX ();
+			dragStartY = me.getScreenY () - _main.getStage ().getY ();
+			Log.message ("Pointer on " + dragStartX + " / " + dragStartY);
+		});
+		
+		windowTopMenuBox.setOnMouseDragged (me -> {
+			_main.getStage ().setX (me.getScreenX () - dragStartX);
+			_main.getStage ().setY (me.getScreenY () - dragStartY);
+		});
 		
 		this.startClassicGame = (Button) _gameScene.lookup ("#start_classic_game_button");
 		startClassicGame.setOnMouseClicked (me -> {
