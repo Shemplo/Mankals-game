@@ -24,6 +24,8 @@ public class MankalsMain extends Application {
 	
 	public static final String BUTTONS_STYLES_FILE = "me/shemplo/game/mankals/engine/styles/buttons.css";
 	
+	public static final String HAND_ICON_IMAGE_FILE = "me/shemplo/game/mankals/about/hold.png";
+	
 	public static final double GAME_FRAME_WIDTH   = 800,
 								GAME_FRAME_HEIGHT = 400;
 	
@@ -71,6 +73,7 @@ public class MankalsMain extends Application {
 	
 	private Map <String, Scene> loadedScenes = new HashMap <> ();
 	
+	@SuppressWarnings ("unused")
 	private MainMenuScene mainMenuScene;
 	private MankalsEngine gameEngine;
 	
