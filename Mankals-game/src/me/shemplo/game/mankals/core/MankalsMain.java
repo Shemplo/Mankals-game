@@ -22,6 +22,8 @@ public class MankalsMain extends Application {
 	public static final String MAIN_MENU_MARKUP_FILE  = "me/shemplo/game/mankals/engine/schemas/main-menu-frame.fxml";
 	public static final String GAME_FRAME_MARKUP_FILE = "me/shemplo/game/mankals/engine/schemas/game-frame.fxml";
 	
+	public static final String BUTTONS_STYLES_FILE = "me/shemplo/game/mankals/engine/styles/buttons.css";
+	
 	public static final double GAME_FRAME_WIDTH   = 800,
 								GAME_FRAME_HEIGHT = 400;
 	
@@ -39,9 +41,11 @@ public class MankalsMain extends Application {
 	/* ===| APPLICATION AREA |=== */
 	
 	private Stage stage;
+	private String css;
 	
 	public void start (Stage stage) {
 		this.stage = stage;
+		this.css = ClassLoader.getSystemResource (BUTTONS_STYLES_FILE).toExternalForm ();
 		
 		switchScenes (stage, MAIN_MENU_MARKUP_FILE);
 		Log.message ("Main frame launched - OK");
@@ -49,9 +53,12 @@ public class MankalsMain extends Application {
 		stage.show ();
 		stage.setResizable (false);
 		stage.setTitle (GAME_FRAME_TITLE);
-		stage.setOnCloseRequest (cre -> {
-			Log.close ();
-		});
+		stage.setOnCloseRequest (cre -> Log.close ());
+	}
+	
+	public void exit () {
+		Log.close   ( );
+		System.exit (0);
 	}
 	
 	public Stage getStage () {
@@ -75,6 +82,7 @@ public class MankalsMain extends Application {
 		}
 		
 		Scene scene = loadedScenes.get (markupFile);
+		scene.getStylesheets ().add (css);
 		
 		if (scene != null) {
 			stage.setScene (scene); 
@@ -86,7 +94,7 @@ public class MankalsMain extends Application {
 					
 				case GAME_FRAME_MARKUP_FILE:
 					gameEngine = new MankalsEngine (scene, this);
-					scene.setOnMouseMoved (me -> gameEngine.updateMouse (me));
+					scene.setOnMouseMoved   (me -> gameEngine.updateMouse (me));
 					scene.setOnMouseClicked (me -> gameEngine.updateMouse (me));
 					break;
 			}
