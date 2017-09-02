@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import me.shemplo.game.mankals.engine.MankalsEngine;
 import me.shemplo.game.mankals.engine.logger.Log;
 
 public class MankalsMain extends Application {
@@ -16,6 +15,7 @@ public class MankalsMain extends Application {
 	/* ===| INIT AREA |=== */
 	
 	public static final String GAME_FRAME_TITLE = "Mankals game";
+	public static final String MAIN_MENU_MARKUP_FILE  = "me/shemplo/game/mankals/engine/schemas/main-menu-frame.fxml";
 	public static final String GAME_FRAME_MARKUP_FILE = "me/shemplo/game/mankals/engine/schemas/game-frame.fxml";
 	
 	public static final double GAME_FRAME_WIDTH   = 800,
@@ -27,7 +27,7 @@ public class MankalsMain extends Application {
 	}
 	
 	public static void fatalStop (int code) {
-		System.err.println ("Some falal error");
+		System.err.println ("Falal error");
 		Log.close (); // Flush to files
 		System.exit (1);
 	}
@@ -38,7 +38,7 @@ public class MankalsMain extends Application {
 	private Scene scene;
 	
 	public void start (Stage stage) {
-		try {
+		/*try {
 			URL resource = ClassLoader.getSystemResource (GAME_FRAME_MARKUP_FILE);
 			parent = FXMLLoader.load (resource);
 		} catch (IOException | NullPointerException ioe) {
@@ -60,7 +60,19 @@ public class MankalsMain extends Application {
 		});
 		scene.setOnMouseClicked (me -> {
 			engine.updateMouse (me);
-		});
+		});*/
+		
+		try {
+			URL resource = ClassLoader.getSystemResource (MAIN_MENU_MARKUP_FILE);
+			parent = FXMLLoader.load (resource);
+		} catch (IOException | NullPointerException ioe) {
+			Log.error ("Markup file `" 
+						+ MAIN_MENU_MARKUP_FILE
+						+ "` not found");
+			fatalStop (1);
+		}
+		
+		Log.message ("Main frame launched - OK");
 		
 		stage.show ();
 		stage.setResizable (false);
@@ -68,7 +80,6 @@ public class MankalsMain extends Application {
 		stage.setOnCloseRequest (cre -> {
 			Log.close ();
 		});
-		Log.message ("Main frame launched - OK");
 	}
 	
 }

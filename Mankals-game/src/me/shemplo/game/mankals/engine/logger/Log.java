@@ -69,11 +69,17 @@ public class Log {
 	}
 	
 	public static void error (String content) {
-		
+		synchronized (msWriter) {
+			erWriter.flush ();
+			
+			String message = logTime.format (new Date ()) + " " + content;
+			erWriter.println (message);
+			System.err.println (message);
+		}
 	}
 	
 	public static void error (Exception exception) {
-		
+		error (exception.getMessage ());
 	}
 	
 	public static void close () {
