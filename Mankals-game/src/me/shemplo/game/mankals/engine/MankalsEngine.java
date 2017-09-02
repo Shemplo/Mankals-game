@@ -347,8 +347,11 @@ public class MankalsEngine {
 	private int _fetchCell (double x, double y) {
 		if (isAnimation) { return -1; }
 		
-		if (x >= horzOffset + cellWidth && x < horzOffset + cellWidth * (deskLength + 1)
-				&& y >= vertOffset + cellHeight && y < vertOffset + cellHeight * 2) {
+		double borderHeight = 33;
+		if (x >= horzOffset + cellWidth 
+				&& x < horzOffset + cellWidth * (deskLength + 1)
+				&& y >= vertOffset + cellHeight + borderHeight 
+				&& y < vertOffset + cellHeight * 2 + borderHeight) {
 			return (int) ((x - horzOffset - cellWidth) / cellWidth);
 		}
 		
