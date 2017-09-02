@@ -5,12 +5,19 @@ import java.util.Arrays;
 import com.sun.javafx.tk.FontMetrics;
 import com.sun.javafx.tk.Toolkit;
 
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -18,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import me.shemplo.game.mankals.core.MankalsMain;
 import me.shemplo.game.mankals.engine.logger.Log;
 
@@ -29,19 +37,25 @@ public class MankalsEngine {
 	private ListView <String> gameLogList;
 	private GraphicsContext context;
 	private BorderPane borderPane;
+	@SuppressWarnings ("unused")
 	private StackPane stackPane;
 	private Canvas canvas;
 	private Button stopGameButton,
 					toMainMenuButton;
 	
 	private double canvasWidth, canvasHeight;
+	@SuppressWarnings ("unused")
 	private int currentTurn, currentPlayer;
-	private boolean isGameFinished = false;
+	private boolean isGameFinished = false,
+					isAnimation    = false;
+	
+	private HandAnimator _handAnimator;
 	
 	private int [][] storage;
 	private int [] base;
 	
 	public MankalsEngine (Scene scene, MankalsMain main) {
+		this._handAnimator = new HandAnimator (this);
 		this._gameScene = scene;
 		this._main = main;
 		
@@ -309,6 +323,8 @@ public class MankalsEngine {
 	}
 	
 	private int _fetchCell (double x, double y) {
+		if (isAnimation) { return -1; }
+		
 		if (x >= horzOffset + cellWidth && x < horzOffset + cellWidth * (deskLength + 1)
 				&& y >= vertOffset + cellHeight && y < vertOffset + cellHeight * 2) {
 			return (int) ((x - horzOffset - cellWidth) / cellWidth);
@@ -321,102 +337,98 @@ public class MankalsEngine {
 		String message = "* Player " + (currentPlayer + 1) 
 							+ " selected cell #" + cell 
 							+ " (" + storage [currentPlayer][cell] + " mks)";
+		
+		_drawScreen ();
 		Log.message (message);
 		gameLogList.getItems ().add (message);
 		
 		if (storage [currentPlayer][cell] != 0) {
-			int amount = storage [currentPlayer][cell];
-			storage [currentPlayer][cell] = 0;
+			isAnimation = true;
+			_handAnimator.animate (cell, 
+									storage [currentPlayer][cell]);
+		} else {
+			message = "This cell is empty";
+			Log.message (message);
+			gameLogList.getItems ().add (message);
+		}
+	}
+	
+	private void _animationFinished () {
+		Log.message ("Animation finished");
+		
+		_drawScreen ();
+		isAnimation = false;
+		
+		int offset = _handAnimator.getOffset ();
+		int player = _handAnimator.getPlayer ();
+		String message;
+		
+		if (offset != 0 
+				&& player == currentPlayer
+				&& storage [currentPlayer][offset - 1] == 1
+				&& storage [(currentPlayer + 1) % 2][deskLength - offset] != 0) {
+			int got = 1 + storage [(currentPlayer + 1) % 2][deskLength - offset];
+			storage [(currentPlayer + 1) % 2][deskLength - offset] = 0;
+			storage [currentPlayer][offset - 1] = 0;
+			base [currentPlayer] += got;
 			
-			int offset = cell + 1;
-			int player = currentPlayer;
+			message = "! Player " + (currentPlayer + 1) 
+						+ " captured cell for "
+						+ got + " points";
+			Log.message (message);
+			gameLogList.getItems ().add (message);
+		}
+		
+		winner = _fetchWinner ();
+		if (_isEmptyStorage (0) 
+				|| _isEmptyStorage (1)
+				|| winner != -1) {
+			message = "< Game finished";
+			Log.message (message);
+			gameLogList.getItems ().add (message);
 			
-			while (amount != 0) {
-				if (offset < deskLength) {
-					storage [player][offset ++] ++;
-				} else {
-					if (player == currentPlayer) {
-						base [player] ++;
-						amount --;
-					}
-					
-					amount ++;
-					player = (player + 1) % 2;
-					offset = 0;
-				}
-				
-				amount --;
-				_drawScreen ();
-			}
-			
-			if (offset != 0 
-					&& player == currentPlayer
-					&& storage [currentPlayer][offset - 1] == 1
-					&& storage [(currentPlayer + 1) % 2][deskLength - offset] != 0) {
-				int got = 1 + storage [(currentPlayer + 1) % 2][deskLength - offset];
-				storage [(currentPlayer + 1) % 2][deskLength - offset] = 0;
-				storage [currentPlayer][offset - 1] = 0;
-				base [currentPlayer] += got;
-				
-				message = "! Player " + (currentPlayer + 1) 
-							+ " captured cell for "
-							+ got + " points";
+			if (winner != -1) {
+				message = "! Winner: player " + (winner + 1);
 				Log.message (message);
 				gameLogList.getItems ().add (message);
-			}
-			
-			winner = _fetchWinner ();
-			if (_isEmptyStorage (0) 
-					|| _isEmptyStorage (1)
-					|| winner != -1) {
-				message = "< Game finished";
+				
+				message = "Due to: enough mankals in base";
+				Log.message (message);
+				gameLogList.getItems ().add (message);
+			} else if (_isEmptyStorage (0)) {
+				message = "! Winner: player " + (2);
 				Log.message (message);
 				gameLogList.getItems ().add (message);
 				
-				if (winner != -1) {
-					message = "! Winner: player " + (winner + 1);
-					Log.message (message);
-					gameLogList.getItems ().add (message);
-					
-					message = "Due to: enough mankals in base";
-					Log.message (message);
-					gameLogList.getItems ().add (message);
-				} else if (_isEmptyStorage (0)) {
-					message = "! Winner: player " + (2);
-					Log.message (message);
-					gameLogList.getItems ().add (message);
-					
-					message = "Due to: opponent has drought";
-					Log.message (message);
-					gameLogList.getItems ().add (message);
-				} else {
-					message = "! Winner: player " + (1);
-					Log.message (message);
-					gameLogList.getItems ().add (message);
-					
-					message = "Due to: opponent has drought";
-					Log.message (message);
-					gameLogList.getItems ().add (message);
-				}
-				
-				hoveredCell = -1;
-				prevHoveredCell = -2;
-				_drawScreen ();
-				isGameFinished = true;
-			} else if (!(offset == 0 && player != currentPlayer)) {
-				currentPlayer = (currentPlayer + 1) % 2;
-				currentTurn ++;
-				
-				message = "> Turn of player " + (currentPlayer + 1);
+				message = "Due to: opponent has drought";
 				Log.message (message);
 				gameLogList.getItems ().add (message);
 			} else {
-				message = "+ Bonus turn for player " + (currentPlayer + 1);
+				message = "! Winner: player " + (1);
+				Log.message (message);
+				gameLogList.getItems ().add (message);
+				
+				message = "Due to: opponent has drought";
 				Log.message (message);
 				gameLogList.getItems ().add (message);
 			}
+			
+			hoveredCell = -1;
+			prevHoveredCell = -2;
+			_drawScreen ();
+			
+			toMainMenuButton.setDisable (false);
+			stopGameButton.setDisable (true);
+			isGameFinished = true;
+		} else if (!(offset == 0 && player != currentPlayer)) {
+			currentPlayer = (currentPlayer + 1) % 2;
+			currentTurn ++;
+			
+			message = "> Turn of player " + (currentPlayer + 1);
+			Log.message (message);
+			gameLogList.getItems ().add (message);
 		} else {
-			message = "This cell is empty";
+			message = "+ Bonus turn for player " + (currentPlayer + 1);
 			Log.message (message);
 			gameLogList.getItems ().add (message);
 		}
@@ -442,6 +454,125 @@ public class MankalsEngine {
 		}
 		
 		return -1;
+	}
+	
+	private class HandAnimator {
+	
+		private final MankalsEngine _engine;
+		private final Timeline _scenary;
+		private final Image _handIcon;
+		
+		private final AnimationTimer _handTimer;
+		private final DoubleProperty x, y;
+		private Timeline _handMove;
+		
+		private int amount, 
+					offset, 
+					player,
+					row;
+		
+		public HandAnimator (MankalsEngine engine) {
+			this._scenary = new Timeline (new KeyFrame (Duration.millis   (0), e -> _moveHand ()),
+											new KeyFrame (Duration.millis (550)));
+			this._scenary.setCycleCount (Timeline.INDEFINITE);
+			this._scenary.setAutoReverse (false);
+			this._engine = engine;
+			
+			this._handIcon = new Image (MankalsMain.HAND_ICON_IMAGE_FILE);
+			this._handTimer = new AnimationTimer() {
+				public void handle (long now) {
+					_drawScreen ();
+					
+					context.drawImage (_handIcon, 
+										x.doubleValue (), 
+										y.doubleValue ());
+				}
+			};
+			
+			this.x = new SimpleDoubleProperty ();
+			this.y = new SimpleDoubleProperty ();
+		}
+		
+		public int getOffset () {
+			return offset;
+		}
+		
+		public int getPlayer () {
+			return player;
+		}
+		
+		public void animate (int startCell, int amount) {
+			this.offset = startCell + 1;
+			this.player = currentPlayer;
+			this.amount = amount;
+			this.row = 1;
+			
+			storage [player][startCell] = 0;
+			_engine._drawScreen ();
+			
+			x.set (horzOffset + (offset) * cellWidth);
+			y.set (vertOffset + row * cellHeight + (cellHeight - _handIcon.getHeight ()) / 2 + 5);
+			
+			_scenary.playFromStart ();
+		}
+		
+		private void _moveHand () {
+			//Log.message ("Move hand: " + offset);
+			
+			if (amount == 0) {
+				_scenary.stop ();
+				_handMove.stop ();
+				_handTimer.stop ();
+				
+				_engine._animationFinished ();
+				return;
+			}
+			
+			double nx = 0, ny = 0;
+			if (row == 0) {
+				nx = horzOffset + (deskLength - offset) * cellWidth;
+				if (offset == deskLength) { nx += cellWidth; }
+			} else {
+				nx = horzOffset + (offset + 1) * cellWidth;
+			}
+			ny = vertOffset + row * cellHeight + (cellHeight - _handIcon.getHeight ()) / 2 + 5;
+			
+			_handMove = new Timeline (new KeyFrame (Duration.millis (0), 
+														new KeyValue (x, x.doubleValue ()),
+														new KeyValue (y, y.doubleValue ())),
+										new KeyFrame (Duration.millis (200),
+														new KeyValue (x, nx),
+														new KeyValue (y, ny)),
+										new KeyFrame (Duration.millis (300), 
+														e -> _putIntoCell ()));
+			_handMove.setCycleCount (1);
+			
+			_handTimer.start ();
+			_handMove.playFromStart ();
+		}
+		
+		private void _putIntoCell () {
+			//Log.message ("Put cell: " + offset + " " + amount);
+			
+			if (offset < deskLength) {
+				storage [player][offset ++] ++;
+			} else {
+				if (player == currentPlayer) {
+					base [player] ++;
+					amount --;
+				}
+				
+				amount ++;
+				offset = 0;
+				
+				player = (player + 1) % 2;
+				row = (row + 1) % 2;
+			}
+			
+			amount --;
+			_engine._drawScreen ();
+		}
+		
 	}
 	
 }

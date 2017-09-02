@@ -7,7 +7,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import me.shemplo.game.mankals.core.MankalsMain;
-import me.shemplo.game.mankals.engine.logger.Log;
 
 public class MainMenuScene {
 	
@@ -39,7 +38,6 @@ public class MainMenuScene {
 		
 		this.startClassicGame = (Button) _gameScene.lookup ("#start_classic_game_button");
 		startClassicGame.setOnMouseClicked (me -> {
-			Log.message ("click");
 			_main.switchScenes (_main.getStage (), MankalsMain.GAME_FRAME_MARKUP_FILE);
 			_main.getGameEngine ().startNewGame ();
 		});
