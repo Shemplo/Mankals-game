@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import me.shemplo.game.mankals.engine.CustomGameMenuScene;
 import me.shemplo.game.mankals.engine.MainMenuScene;
 import me.shemplo.game.mankals.engine.MankalsEngine;
 import me.shemplo.game.mankals.engine.logger.Log;
@@ -20,11 +21,18 @@ public class MankalsMain extends Application {
 	/* ===| INIT AREA |=== */
 	
 	public static final String GAME_FRAME_TITLE = "Mankals game";
-	public static final String MAIN_MENU_MARKUP_FILE  = "me/shemplo/game/mankals/engine/schemas/main-menu-frame.fxml";
-	public static final String GAME_FRAME_MARKUP_FILE = "me/shemplo/game/mankals/engine/schemas/game-frame.fxml";
 	
-	public static final String BORDERS_STYLES_FILE = "me/shemplo/game/mankals/engine/styles/borders.css";
-	public static final String BUTTONS_STYLES_FILE = "me/shemplo/game/mankals/engine/styles/buttons.css";
+	public static final String CORE_PATH = "me/shemplo/game/mankals";
+	public static final String SCHEMAS_PATH = CORE_PATH + "/engine/schemas";
+	public static final String STYLES_PATH = CORE_PATH + "/engine/styles";
+	
+	public static final String CUSTOM_GAME_MENU_MARKUP_FILE = SCHEMAS_PATH + "/custom-game-menu-frame.fxml";
+	public static final String MAIN_MENU_MARKUP_FILE  = SCHEMAS_PATH + "/main-menu-frame.fxml";
+	public static final String GAME_FRAME_MARKUP_FILE = SCHEMAS_PATH + "/game-frame.fxml";
+	
+	public static final String BORDERS_STYLES_FILE = STYLES_PATH + "/borders.css";
+	public static final String BUTTONS_STYLES_FILE = STYLES_PATH + "/buttons.css";
+	public static final String FONTS_STYLES_FILE = STYLES_PATH + "/fonts.css";
 	
 	public static final String HAND_ICON_IMAGE_FILE = "me/shemplo/game/mankals/about/hold.png";
 	
@@ -46,12 +54,14 @@ public class MankalsMain extends Application {
 	
 	private Stage stage;
 	private String cssBorders,
-					cssButtons;
+					cssButtons,
+					cssFonts;
 	
 	public void start (Stage stage) {
 		this.stage = stage;
 		this.cssBorders = ClassLoader.getSystemResource (BORDERS_STYLES_FILE).toExternalForm ();
 		this.cssButtons = ClassLoader.getSystemResource (BUTTONS_STYLES_FILE).toExternalForm ();
+		this.cssFonts   = ClassLoader.getSystemResource (FONTS_STYLES_FILE).toExternalForm ();
 		
 		switchScenes (stage, MAIN_MENU_MARKUP_FILE);
 		Log.message ("Main frame launched - OK");
@@ -77,10 +87,11 @@ public class MankalsMain extends Application {
 	}
 	
 	private Map <String, Scene> loadedScenes = new HashMap <> ();
-	
-	@SuppressWarnings ("unused")
-	private MainMenuScene mainMenuScene;
 	private MankalsEngine gameEngine;
+	
+	public void switchScenes (String markupFile) {
+		switchScenes (getStage (), markupFile);
+	}
 	
 	public void switchScenes (Stage stage, String markupFile) {
 		if (!loadedScenes.containsKey (markupFile)
@@ -90,21 +101,26 @@ public class MankalsMain extends Application {
 		}
 		
 		Scene scene = loadedScenes.get (markupFile);
-		scene.getStylesheets ().add (cssBorders);
-		scene.getStylesheets ().add (cssButtons);
 		
 		if (scene != null) {
+			scene.getStylesheets ().add (cssBorders);
+			scene.getStylesheets ().add (cssButtons);
+			scene.getStylesheets ().add (cssFonts);
 			stage.setScene (scene);
 		
 			switch (markupFile) {
 				case MAIN_MENU_MARKUP_FILE:
-					mainMenuScene = new MainMenuScene (scene, this);
+					new MainMenuScene (scene, this);
 					break;
 					
 				case GAME_FRAME_MARKUP_FILE:
 					gameEngine = new MankalsEngine (scene, this);
 					scene.setOnMouseMoved   (me -> gameEngine.updateMouse (me));
 					scene.setOnMouseClicked (me -> gameEngine.updateMouse (me));
+					break;
+					
+				case CUSTOM_GAME_MENU_MARKUP_FILE:
+					new CustomGameMenuScene (scene, this);
 					break;
 			}
 		}
@@ -120,6 +136,7 @@ public class MankalsMain extends Application {
 			Log.error ("Markup file `" 
 						+ markupFile
 						+ "` not found");
+			ioe.printStackTrace ();
 			return null;
 		}
 

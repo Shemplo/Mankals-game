@@ -1,0 +1,10 @@
+.custom_game_header {
+	-fx-font-size: 1.5em;
+	-fx-font-weight: bold;
+	-fx-text-fill: rgb(135,122,99);
+}
+
+.custom_game_radio {
+	-fx-font-size: 1.175em;
+	-fx-text-fill: rgb(100,91,73);
+}

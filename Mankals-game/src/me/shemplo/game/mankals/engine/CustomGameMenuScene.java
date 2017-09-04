@@ -2,6 +2,7 @@ package me.shemplo.game.mankals.engine;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -10,26 +11,24 @@ import javafx.scene.paint.Color;
 import me.shemplo.game.mankals.core.MankalsMain;
 import me.shemplo.game.mankals.engine.logger.Log;
 
-public class MainMenuScene {
-	
+public class CustomGameMenuScene {
+
 	private MankalsMain _main;
 	private Scene _gameScene;
 	
 	private BorderPane rootBorderPane;
 	private HBox windowTopMenuBox;
 	
-	@SuppressWarnings ("unused")
-	private Button startClassicGame,
-					startCustomGame,
-					startGameWithAI,
-					seeRules,
-					seeAbout,
-					exitGame;
+	private Button exitGame,
+					toMainMenuButton,
+					startGameButton;
+	private Slider cellsNumberSlider,
+					cellsSizeSlider;
 	
 	private double dragStartX  = Integer.MAX_VALUE,
 					dragStartY = Integer.MAX_VALUE;
 	
-	public MainMenuScene (Scene scene, MankalsMain main) {
+	public CustomGameMenuScene (Scene scene, MankalsMain main) {
 		this._gameScene = scene;
 		this._main = main;
 		
@@ -57,19 +56,27 @@ public class MainMenuScene {
 			_main.getStage ().setY (me.getScreenY () - dragStartY);
 		});
 		
-		this.startClassicGame = (Button) _gameScene.lookup ("#start_classic_game_button");
-		startClassicGame.setOnMouseClicked (me -> {
-			_main.switchScenes (MankalsMain.GAME_FRAME_MARKUP_FILE);
-			_main.getGameEngine ().startNewGame ();
-		});
-		
-		this.startCustomGame = (Button) _gameScene.lookup ("#start_custom_game_button");
-		startCustomGame.setOnMouseClicked (me -> {
-			_main.switchScenes (MankalsMain.CUSTOM_GAME_MENU_MARKUP_FILE);
-		});
-		
 		this.exitGame = (Button) _gameScene.lookup ("#exit_button");
 		exitGame.setOnMouseClicked (me -> _main.exit ());
+		
+		this.cellsNumberSlider = (Slider) _gameScene.lookup ("#cells_number_slider");
+		
+		this.cellsSizeSlider = (Slider) _gameScene.lookup ("#cells_size_slider");
+		
+		this.toMainMenuButton = (Button) _gameScene.lookup ("#to_main_menu_button");
+		toMainMenuButton.setOnMouseClicked (me -> {
+			_main.switchScenes (_main.getStage (), MankalsMain.MAIN_MENU_MARKUP_FILE);
+		});
+		
+		this.startGameButton = (Button) _gameScene.lookup ("#start_game_button");
+		startGameButton.setOnMouseClicked (me -> {
+			int cells  = (int) Math.round (cellsNumberSlider.getValue ());
+			int amount = (int) Math.round (cellsSizeSlider.getValue ());
+			Log.message ("New game: " + cells + " cells, " + amount + " mankals");
+			
+			_main.switchScenes (MankalsMain.GAME_FRAME_MARKUP_FILE);
+			_main.getGameEngine ().startNewGame (cells, amount);
+		});
 	}
 	
 }

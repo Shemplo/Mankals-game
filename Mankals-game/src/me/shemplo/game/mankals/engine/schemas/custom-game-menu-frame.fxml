@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane 
+	fx:id="custom_game_border_pane"
+	styleClass="root_border_pane"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<top>
+		<HBox
+			fx:id="window_menu_box"
+			alignment="BASELINE_RIGHT">
+				<children>
+					<Button 
+						fx:id="exit_button"
+						styleClass="top_menu_button"
+						text="✕">
+						<HBox.margin>
+							<Insets top="0" right="0" bottom="5" left="0" />
+						</HBox.margin>
+					</Button>
+				</children>
+		</HBox>
+	</top>
+	
+	<left>
+		<VBox>
+			<children>
+				<VBox
+					disable="true">
+					<children>
+						<Label
+							text="Choose opponent:"
+							styleClass="custom_game_header">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
+						
+						<RadioButton
+							fx:id="computer_opp_radio"
+							styleClass="custom_game_radio"
+							text="Player">
+							<toggleGroup>
+								<ToggleGroup fx:id="One" />
+						  </toggleGroup>
+						  
+						  <VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</RadioButton>
+						
+						<RadioButton
+							fx:id="computer_opp_radio"
+							styleClass="custom_game_radio"
+							text="Computer">
+							<toggleGroup>
+								<ToggleGroup fx:id="One" />
+						  </toggleGroup>
+						  
+						  <VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</RadioButton>
+					</children>
+				</VBox>
+				
+				<Separator 
+					maxWidth="200"
+					styleClass="custom_game_separator">
+					<VBox.margin>
+						<Insets top="15" right="10" bottom="15" left="10" />
+					</VBox.margin>
+				</Separator>
+				
+				<VBox
+				 	disable="true">
+					<children>
+						<Label
+							text="Choose game colors:"
+							styleClass="custom_game_header">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
+						
+						<HBox
+							alignment="BOTTOM_LEFT">
+							<children>
+								<Label
+									styleClass="custom_game_radio"
+									text="Player 1: ">
+									<HBox.margin>
+										<Insets top="10" right="10" bottom="5" left="10" />
+									</HBox.margin>
+								</Label>
+								
+								<ChoiceBox>
+									<items>
+										<FXCollections fx:factory="observableArrayList">
+											<String fx:value="sm clr / sm clr" />
+		                </FXCollections>
+									</items>
+								</ChoiceBox>
+							</children>
+						</HBox>
+						
+						<HBox
+							alignment="BOTTOM_LEFT">
+							<children>
+								<Label
+									styleClass="custom_game_radio"
+									text="Player 2: ">
+									<HBox.margin>
+										<Insets top="10" right="10" bottom="5" left="10" />
+									</HBox.margin>
+								</Label>
+								
+								<ChoiceBox>
+									<items>
+										<FXCollections fx:factory="observableArrayList">
+											<String fx:value="sm clr / sm clr" />
+		                </FXCollections>
+									</items>
+								</ChoiceBox>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+			</children>
+		</VBox>
+	</left>
+	
+	<center>
+		<VBox>
+			<children>
+				<VBox>
+					<children>
+						<Label
+							text="Choose number of cells:"
+							styleClass="custom_game_header">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
+						
+						<Slider
+							fx:id="cells_number_slider"
+							orientation="HORIZONTAL"
+							showTickLabels="true"
+							showTickMarks="true"
+							majorTickUnit="1"
+							valueChanging="false"
+							value="6"
+							max="10"
+							min="4">
+							<VBox.margin>
+								<Insets top="10" right="15" bottom="5" left="10" />
+							</VBox.margin>
+						</Slider>
+					</children>
+				</VBox>
+				
+				<VBox>
+					<children>
+						<Label
+							text="Choose number of mankals in cell:"
+							styleClass="custom_game_header">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
+						
+						<Slider
+							fx:id="cells_size_slider"
+							orientation="HORIZONTAL"
+							showTickLabels="true"
+							showTickMarks="true"
+							majorTickUnit="1"
+							valueChanging="false"
+							value="4"
+							max="15"
+							min="2">
+							<VBox.margin>
+								<Insets top="10" right="15" bottom="5" left="10" />
+							</VBox.margin>
+						</Slider>
+					</children>
+				</VBox>
+			</children>
+		</VBox>
+	</center>
+	
+	<bottom>
+		<HBox
+			fx:id="controll_menu_box"
+			alignment="BASELINE_LEFT">
+			<children>
+				<Button
+					fx:id="to_main_menu_button"
+					styleClass="game_button"
+					text="To main menu">
+					<HBox.margin>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</HBox.margin>
+				</Button>
+				
+				<Button
+					fx:id="start_game_button"
+					styleClass="game_button"
+					text="Start game">
+					<HBox.margin>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</HBox.margin>
+				</Button>
+			</children>
+		</HBox>
+	</bottom>
+</BorderPane>
+

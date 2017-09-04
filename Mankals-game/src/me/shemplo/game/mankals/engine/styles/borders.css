@@ -3,6 +3,11 @@
 	-fx-border-width: 5;
 }
 
+.custom_game_separator {
+	-fx-border-color: rgb(230,210,174);
+	-fx-border-width: 1.5;
+}
+
 #window_menu_box {
 	-fx-cursor: move;
 }
