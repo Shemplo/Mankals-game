@@ -64,7 +64,7 @@
 					fx:id="see_rules_button"
 					styleClass="menu_button"
 					text="Game rules"
-					disable="true">
+					disable="false">
 					<VBox.margin>
 						<Insets top="5" right="15" bottom="15" left="15" />
 					</VBox.margin>

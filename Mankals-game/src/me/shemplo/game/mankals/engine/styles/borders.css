@@ -8,6 +8,34 @@
 	-fx-border-width: 1.5;
 }
 
+.list_scroll_pane .viewport {
+	-fx-background-color: transparent;
+}
+
+.list_scroll_pane {
+	-fx-background-color: transparent;
+}
+
+.list_scroll_pane .scroll-bar:vertical .track-background {
+	-fx-background-color: rgb(230,210,174);
+}
+
+.list_scroll_pane .scroll-bar:vertical .thumb {
+	-fx-background-color: rgb(213,193,155);
+	-fx-background-radius: 0;
+}
+
+.list_scroll_pane .scroll-bar:vertical .increment-button,
+.list_scroll_pane .scroll-bar:vertical .decrement-button {
+	-fx-background-color: rgb(213,193,155);
+	-fx-padding: 0.25em 0.125em;
+}
+
+.list_scroll_pane .scroll-bar:vertical .increment-arrow,
+.list_scroll_pane .scroll-bar:vertical .decrement-arrow {
+	-fx-background-color: transparent;
+}
+
 #window_menu_box {
 	-fx-cursor: move;
 }

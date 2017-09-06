@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import me.shemplo.game.mankals.engine.CustomGameMenuScene;
+import me.shemplo.game.mankals.engine.GameRulesScene;
 import me.shemplo.game.mankals.engine.MainMenuScene;
 import me.shemplo.game.mankals.engine.MankalsEngine;
 import me.shemplo.game.mankals.engine.logger.Log;
@@ -27,8 +28,11 @@ public class MankalsMain extends Application {
 	public static final String STYLES_PATH = CORE_PATH + "/engine/styles";
 	
 	public static final String CUSTOM_GAME_MENU_MARKUP_FILE = SCHEMAS_PATH + "/custom-game-menu-frame.fxml";
+	public static final String GAME_RULES_MARKUP_FILE = SCHEMAS_PATH + "/game-rules-frame.fxml";
 	public static final String MAIN_MENU_MARKUP_FILE  = SCHEMAS_PATH + "/main-menu-frame.fxml";
 	public static final String GAME_FRAME_MARKUP_FILE = SCHEMAS_PATH + "/game-frame.fxml";
+	
+	public static final String GAME_RULES_TEXT_FILE = SCHEMAS_PATH + "/rules.txt";
 	
 	public static final String BORDERS_STYLES_FILE = STYLES_PATH + "/borders.css";
 	public static final String BUTTONS_STYLES_FILE = STYLES_PATH + "/buttons.css";
@@ -121,6 +125,10 @@ public class MankalsMain extends Application {
 					
 				case CUSTOM_GAME_MENU_MARKUP_FILE:
 					new CustomGameMenuScene (scene, this);
+					break;
+					
+				case GAME_RULES_MARKUP_FILE:
+					new GameRulesScene (scene, this);
 					break;
 			}
 		}
