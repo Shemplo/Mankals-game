@@ -1,12 +1,9 @@
 package me.shemplo.game.mankals.engine;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +24,6 @@ public class GameRulesScene {
 	private MankalsMain _main;
 	private Scene _gameScene;
 	
-	@SuppressWarnings ("unused")
 	private ScrollPane rulesScrollPane;
 	private BorderPane rootBorderPane;
 	private HBox windowTopMenuBox;

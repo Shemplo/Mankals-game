@@ -24,7 +24,8 @@
 					<Button 
 						fx:id="exit_button"
 						styleClass="top_menu_button"
-						text="✕">
+						text="✕"
+						disable="true">
 						<HBox.margin>
 							<Insets top="0" right="0" bottom="5" left="0" />
 						</HBox.margin>
@@ -66,7 +67,11 @@
 		</StackPane>
 	</center>
 	<right>
-		<ListView fx:id="game_log_list" />
+		<ListView fx:id="game_log_list">
+			<BorderPane.margin>
+				<Insets bottom="5" left="0" right="5" top="5" />
+			</BorderPane.margin>
+		</ListView>
 	</right>
 </BorderPane>
 
