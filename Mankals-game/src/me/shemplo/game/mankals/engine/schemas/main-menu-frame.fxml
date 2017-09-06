@@ -51,16 +51,6 @@
 				</Button>
 				
 				<Button 
-					fx:id="start_ai_game_button"
-					styleClass="menu_button"
-					text="New game with AI"
-					disable="true">
-					<VBox.margin>
-						<Insets top="5" right="15" bottom="15" left="15" />
-					</VBox.margin>
-				</Button>
-				
-				<Button 
 					fx:id="see_rules_button"
 					styleClass="menu_button"
 					text="Game rules"

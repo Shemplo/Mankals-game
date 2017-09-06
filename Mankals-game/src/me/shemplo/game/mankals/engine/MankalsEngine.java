@@ -498,7 +498,7 @@ public class MankalsEngine {
 		
 		public HandAnimator (MankalsEngine engine) {
 			this._scenary = new Timeline (new KeyFrame (Duration.millis   (0), e -> _moveHand ()),
-											new KeyFrame (Duration.millis (1350)));
+											new KeyFrame (Duration.millis (350)));
 			this._scenary.setCycleCount (Timeline.INDEFINITE);
 			this._scenary.setAutoReverse (false);
 			this._engine = engine;
@@ -509,7 +509,7 @@ public class MankalsEngine {
 					_drawScreen ();
 					
 					context.drawImage (_handIcon, 
-										x.doubleValue (), 
+										x.doubleValue () + 2, 
 										y.doubleValue ());
 				}
 			};
