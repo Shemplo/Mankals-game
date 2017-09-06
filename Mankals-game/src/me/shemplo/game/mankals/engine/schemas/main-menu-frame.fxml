@@ -71,10 +71,10 @@
 				</Button>
 				
 				<Button 
-					fx:id="about_button"
+					fx:id="see_about_button"
 					styleClass="menu_button"
 					text="About"
-					disable="true">
+					disable="false">
 					<VBox.margin>
 						<Insets top="5" right="15" bottom="15" left="15" />
 					</VBox.margin>

@@ -92,11 +92,11 @@ public class MankalsEngine {
 		});
 		
 		this.gameLogList = (ListView <String>) _gameScene.lookup ("#game_log_list");
-		gameLogList.setMaxSize (200, stackPane.getHeight () - 10);
+		gameLogList.setMaxSize (230, stackPane.getHeight () - 10);
 		gameLogList.setFocusTraversable (false);
 		
 		this.canvas = (Canvas) _gameScene.lookup ("#game_canvas");
-		canvas.setWidth (MankalsMain.GAME_FRAME_WIDTH - 205 - horzOffset * 2);
+		canvas.setWidth (MankalsMain.GAME_FRAME_WIDTH - 235 - horzOffset * 2);
 		canvas.setHeight (canvasHeight = MankalsMain.GAME_FRAME_HEIGHT);
 		this.context = canvas.getGraphicsContext2D ();
 		canvasWidth = canvas.getWidth ();
@@ -498,7 +498,7 @@ public class MankalsEngine {
 		
 		public HandAnimator (MankalsEngine engine) {
 			this._scenary = new Timeline (new KeyFrame (Duration.millis   (0), e -> _moveHand ()),
-											new KeyFrame (Duration.millis (550)));
+											new KeyFrame (Duration.millis (1350)));
 			this._scenary.setCycleCount (Timeline.INDEFINITE);
 			this._scenary.setAutoReverse (false);
 			this._engine = engine;

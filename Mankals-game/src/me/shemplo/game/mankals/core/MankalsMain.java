@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import me.shemplo.game.mankals.engine.AboutScene;
 import me.shemplo.game.mankals.engine.CustomGameMenuScene;
 import me.shemplo.game.mankals.engine.GameRulesScene;
 import me.shemplo.game.mankals.engine.MainMenuScene;
@@ -30,6 +31,7 @@ public class MankalsMain extends Application {
 	public static final String CUSTOM_GAME_MENU_MARKUP_FILE = SCHEMAS_PATH + "/custom-game-menu-frame.fxml";
 	public static final String GAME_RULES_MARKUP_FILE = SCHEMAS_PATH + "/game-rules-frame.fxml";
 	public static final String MAIN_MENU_MARKUP_FILE  = SCHEMAS_PATH + "/main-menu-frame.fxml";
+	public static final String ABOUT_MARKUP_FILE      = SCHEMAS_PATH + "/about-frame.fxml";
 	public static final String GAME_FRAME_MARKUP_FILE = SCHEMAS_PATH + "/game-frame.fxml";
 	
 	public static final String GAME_RULES_TEXT_FILE = SCHEMAS_PATH + "/rules.txt";
@@ -40,7 +42,7 @@ public class MankalsMain extends Application {
 	
 	public static final String HAND_ICON_IMAGE_FILE = "me/shemplo/game/mankals/about/hold.png";
 	
-	public static final double GAME_FRAME_WIDTH   = 800,
+	public static final double GAME_FRAME_WIDTH   = 830,
 								GAME_FRAME_HEIGHT = 400;
 	
 	public static void main (String... args) {
@@ -129,6 +131,10 @@ public class MankalsMain extends Application {
 					
 				case GAME_RULES_MARKUP_FILE:
 					new GameRulesScene (scene, this);
+					break;
+					
+				case ABOUT_MARKUP_FILE:
+					new AboutScene (scene, this);
 					break;
 			}
 		}
