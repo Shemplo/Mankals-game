@@ -39,7 +39,6 @@ public class MankalsEngine {
 	private GraphicsContext context;
 	private HBox windowTopMenuBox;
 	private BorderPane borderPane;
-	@SuppressWarnings ("unused")
 	private StackPane stackPane;
 	private Canvas canvas;
 	private Button stopGameButton,
@@ -68,7 +67,7 @@ public class MankalsEngine {
 	}
 	
 	@SuppressWarnings ("unchecked")
-	private void _init () {		
+	private void _init () {
 		this.borderPane = (BorderPane) _gameScene.lookup ("#game_border_pane");
 		this.stackPane = (StackPane) _gameScene.lookup ("#game_stack_pane");
 		
@@ -93,12 +92,14 @@ public class MankalsEngine {
 		});
 		
 		this.gameLogList = (ListView <String>) _gameScene.lookup ("#game_log_list");
+		gameLogList.setMaxSize (200, stackPane.getHeight () - 10);
 		gameLogList.setFocusTraversable (false);
 		
 		this.canvas = (Canvas) _gameScene.lookup ("#game_canvas");
-		canvas.setWidth (canvasWidth = (MankalsMain.GAME_FRAME_WIDTH * 3 / 4 - 10));
+		canvas.setWidth (MankalsMain.GAME_FRAME_WIDTH - 205 - horzOffset * 2);
 		canvas.setHeight (canvasHeight = MankalsMain.GAME_FRAME_HEIGHT);
 		this.context = canvas.getGraphicsContext2D ();
+		canvasWidth = canvas.getWidth ();
 		
 		this.stopGameButton = (Button) _gameScene.lookup ("#game_stop_button");
 		stopGameButton.setOnMouseClicked (me -> {
@@ -155,7 +156,7 @@ public class MankalsEngine {
 		gameLogList.getItems ().add (message);
 	}
 	
-	private final double horzOffset = 50,
+	private final double horzOffset = 25,
 							vertOffset = 75;
 	private double cellWidth,
 					cellHeight;
@@ -322,8 +323,7 @@ public class MankalsEngine {
 	public void updateMouse (MouseEvent me) {
 		if (isGameFinished) { return; }
 		
-		int cell = _fetchCell (me.getSceneX (), 
-								me.getSceneY ());
+		int cell = _fetchCell (me.getX () - 25, me.getY ());
 		
 		if (me.getClickCount () > 0) {
 			if (cell != -1) { _cellSelected (cell); }
@@ -346,7 +346,7 @@ public class MankalsEngine {
 	
 	private int _fetchCell (double x, double y) {
 		if (isAnimation) { return -1; }
-		
+
 		double borderHeight = 33;
 		if (x >= horzOffset + cellWidth 
 				&& x < horzOffset + cellWidth * (deskLength + 1)
