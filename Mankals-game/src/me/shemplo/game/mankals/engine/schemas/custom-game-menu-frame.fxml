@@ -7,6 +7,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.CheckBox?>
 
 <BorderPane 
 	fx:id="custom_game_border_pane"
@@ -196,6 +198,57 @@
 			</children>
 		</VBox>
 	</center>
+	
+	<right>
+		<VBox>
+			<children>
+				<VBox
+					disable="true">
+					<children>
+						<Label
+							text="Other settings:"
+							styleClass="custom_game_header">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
+						
+						<CheckBox
+							styleClass="custom_game_radio"
+							text="Save log in individual file">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="7.5" left="10" />
+							</VBox.margin>
+						</CheckBox>
+						
+						<CheckBox
+							styleClass="custom_game_radio"
+							text="Rotate desk for player">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="7.5" left="10" />
+							</VBox.margin>
+						</CheckBox>
+						
+						<CheckBox
+							styleClass="custom_game_radio"
+							text="Play animation after turn">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="7.5" left="10" />
+							</VBox.margin>
+						</CheckBox>
+					</children>
+				</VBox>
+				
+				<Separator 
+					maxWidth="200"
+					styleClass="custom_game_separator">
+					<VBox.margin>
+						<Insets top="15" right="10" bottom="15" left="10" />
+					</VBox.margin>
+				</Separator>
+			</children>
+		</VBox>
+	</right>
 	
 	<bottom>
 		<HBox

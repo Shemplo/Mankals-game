@@ -1,35 +1,46 @@
 package me.shemplo.game.mankals.engine;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import me.shemplo.game.mankals.core.MankalsMain;
 import me.shemplo.game.mankals.engine.logger.Log;
 
-public class MainMenuScene {
-	
+public class GameRulesScene {
+
 	private MankalsMain _main;
 	private Scene _gameScene;
 	
+	@SuppressWarnings ("unused")
+	private ScrollPane rulesScrollPane;
 	private BorderPane rootBorderPane;
 	private HBox windowTopMenuBox;
-	
 	@SuppressWarnings ("unused")
-	private Button startClassicGame,
-					startCustomGame,
-					startGameWithAI,
-					seeRules,
-					seeAbout,
+	private VBox rulesListBox;
+	
+	private Button toMainMenuButton,
 					exitGame;
 	
 	private double dragStartX  = Integer.MAX_VALUE,
 					dragStartY = Integer.MAX_VALUE;
 	
-	public MainMenuScene (Scene scene, MankalsMain main) {
+	public GameRulesScene (Scene scene, MankalsMain main) {
 		this._gameScene = scene;
 		this._main = main;
 		
@@ -57,24 +68,36 @@ public class MainMenuScene {
 			_main.getStage ().setY (me.getScreenY () - dragStartY);
 		});
 		
-		this.startClassicGame = (Button) _gameScene.lookup ("#start_classic_game_button");
-		startClassicGame.setOnMouseClicked (me -> {
-			_main.switchScenes (MankalsMain.GAME_FRAME_MARKUP_FILE);
-			_main.getGameEngine ().startNewGame ();
-		});
-		
-		this.startCustomGame = (Button) _gameScene.lookup ("#start_custom_game_button");
-		startCustomGame.setOnMouseClicked (me -> {
-			_main.switchScenes (MankalsMain.CUSTOM_GAME_MENU_MARKUP_FILE);
-		});
-		
-		this.seeRules = (Button) _gameScene.lookup ("#see_rules_button");
-		seeRules.setOnMouseClicked (me -> {
-			_main.switchScenes (MankalsMain.GAME_RULES_MARKUP_FILE);
-		});
-		
 		this.exitGame = (Button) _gameScene.lookup ("#exit_button");
 		exitGame.setOnMouseClicked (me -> _main.exit ());
+		
+		this.rulesScrollPane = (ScrollPane) _gameScene.lookup ("#rules_scroll_pane");
+		rulesScrollPane.setHbarPolicy (ScrollBarPolicy.NEVER);
+		
+		this.rulesListBox = (VBox) _gameScene.lookup ("#rules_list_v_box");
+		
+		this.toMainMenuButton = (Button) _gameScene.lookup ("#to_main_menu_button");
+		toMainMenuButton.setOnMouseClicked (me -> {
+			_main.switchScenes (_main.getStage (), MankalsMain.MAIN_MENU_MARKUP_FILE);
+		});
+		
+		try (
+			InputStream is = ClassLoader.getSystemResourceAsStream (MankalsMain.GAME_RULES_TEXT_FILE);
+			InputStreamReader isr = new InputStreamReader (is, "UTF-8");
+			BufferedReader br = new BufferedReader (isr);
+		) {
+			for (int i = 0; i < 14; i ++) {
+				Label label = (Label) _gameScene.lookup ("#rules_label_" + i);
+				label.setMaxWidth (rulesScrollPane.getWidth () - 30);
+				label.setWrapText (true);
+				
+				label.setText (br.readLine ());
+			}
+		} catch (IOException e) {
+			// Oooo-ps
+		}
+		
+		
 	}
 	
 }
