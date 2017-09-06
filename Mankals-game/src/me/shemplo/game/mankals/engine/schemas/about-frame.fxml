@@ -91,6 +91,22 @@
 								<Insets top="0" right="10" bottom="5" left="10" />
 							</VBox.margin>
 						</Label>
+						
+						<Label
+							styleClass="about_plain_text"
+							text="---">
+							<VBox.margin>
+								<Insets top="10" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
+						
+						<Label
+							styleClass="about_plain_text"
+							text="Current version 1.1.0">
+							<VBox.margin>
+								<Insets top="0" right="10" bottom="5" left="10" />
+							</VBox.margin>
+						</Label>
 					</children>
 				</VBox>
 			</content>
