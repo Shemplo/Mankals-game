@@ -73,6 +73,11 @@ public class MainMenuScene {
 			_main.switchScenes (MankalsMain.GAME_RULES_MARKUP_FILE);
 		});
 		
+		this.seeAbout = (Button) _gameScene.lookup ("#see_about_button");
+		seeAbout.setOnMouseClicked (me -> {
+			_main.switchScenes (MankalsMain.ABOUT_MARKUP_FILE);
+		});
+		
 		this.exitGame = (Button) _gameScene.lookup ("#exit_button");
 		exitGame.setOnMouseClicked (me -> _main.exit ());
 	}

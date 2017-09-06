@@ -13,3 +13,17 @@
 	-fx-font-size: 1.2em;
 	-fx-text-fill: rgb(50,45,36);
 }
+
+.about_plain_text {
+	-fx-font-size: 1.2em;
+	-fx-text-fill: rgb(50,45,36);
+}
+
+.about_link_text {
+	-fx-font-size: 1.2em;
+	-fx-text-fill: blue;
+}
+
+.about_link_text:hover {
+	-fx-cursor: hand;
+}
